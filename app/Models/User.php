@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -17,10 +16,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $table = 'users';
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role',
+        'subscription_plan_id',
     ];
 
     /**
@@ -41,4 +44,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the user's role as a string.
+     *
+     * @return string
+     */
+    public function getRoleAttribute()
+    {
+        switch ($this->attributes['role']) {
+            case 1:
+                return 'Admin';
+            case 2:
+                return 'Operator';
+            case 3:
+                return 'User';
+            case 4:
+                return 'Client';
+            default:
+                return 'Unknown Role';
+        }
+    }
 }
