@@ -42,16 +42,6 @@ class AuthController extends Controller
     return Socialite::driver('google')->redirect();
 }
 
-    // public function handleGoogleCallback()
-    // {
-    //     $user = Socialite::driver('google')->user();
-
-    //     Auth::login($user, true);
-
-    //     return redirect()->intended('/');
-    // }
-
-
 
 
     public function handleGoogleCallback()
@@ -59,18 +49,18 @@ class AuthController extends Controller
         try {
             $user = Socialite::driver('google')->user();
         } catch (\Exception $e) {
-            // Handle any exceptions that might occur during the authentication process
+
             return redirect('/login')->with('error', 'Google authentication failed. Please try again.');
         }
 
-        // Check if the user already exists in the database
+
         $existingUser = User::where('email', $user->email)->first();
 
         if ($existingUser) {
-            // Log in the existing user
+
             Auth::login($existingUser, true);
         } else {
-            // Create a new user
+
             $newUser = new User([
                 'name' => $user->name,
                 'email' => $user->email,
@@ -98,7 +88,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
-            // Authentication passed...
+
             return redirect()->intended('/');
         }
 
