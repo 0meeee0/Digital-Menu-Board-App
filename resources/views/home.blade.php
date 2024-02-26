@@ -117,11 +117,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Dashboard</a>
                 </li>
-                <!-- Logout Button -->
                 <li class="nav-item red-logout">
                     <a class="nav-link" href="#" style="color: #FFFFFF;">Logout</a>
                 </li>
-                <!-- End of Logout Button -->
             </ul>
         </div>
     </nav>

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\UserProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,3 +37,8 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+
+
+
+Route::get('/profile/{user}', [UserProfileController::class, 'show'])->name('user.profile');
+Route::put('/profile/{user}', [UserProfileController::class, 'update'])->name('user.update');
