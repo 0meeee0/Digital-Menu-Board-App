@@ -31,8 +31,6 @@
                                 <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $user->email) }}">
                             </div>
 
-                            <!-- Add other form fields for updating user profile -->
-
                             <button type="submit" class="btn btn-primary">Update Profile</button>
                         </form>
                     </div>

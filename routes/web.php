@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\OperatorController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,3 +44,8 @@ Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallbac
 
 Route::get('/profile/{user}', [UserProfileController::class, 'show'])->name('user.profile');
 Route::put('/profile/{user}', [UserProfileController::class, 'update'])->name('user.update');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/operator/dashboard', [OperatorController::class, 'index'])->name('operator.dashboard');
+});
