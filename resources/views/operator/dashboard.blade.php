@@ -1,21 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operator Dashboard</title>
-    <!-- Include Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+@extends('layouts.app')
 
-<div class="container mt-5">
-    <h1>Welcome to Operator Dashboard</h1>
-    <!-- Add your dashboard content here -->
-    <p>This is the content of the Operator dashboard.</p>
-</div>
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Operator Dashboard</div>
 
-<!-- Include Bootstrap JS and Popper.js (required for Bootstrap) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+                    <div class="card-body">
+                        @if(session('success'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        @if(session('error'))
+                            <div class="alert alert-danger" role="alert">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
+                        {{-- Add Restaurant Form --}}
+                        <form method="post" action="{{ route('operator.restaurant.store') }}">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Restaurant Name:</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Restaurant Address:</label>
+                                <input type="text" class="form-control" id="address" name="address" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="openingHour" class="form-label">Opening Hour:</label>
+                                <input type="time" class="form-control" id="openingHour" name="openingHour" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Restaurant</button>
+                        </form>
+
+                        <hr>
+
+                        {{-- List of Restaurants --}}
+                        <h2>Your Restaurants</h2>
+                        <ul class="list-group">
+                            @forelse($restaurants as $restaurant)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ $restaurant->name }} - {{ $restaurant->address }}
+                                    <form method="post" action="{{ route('operator.restaurant.destroy', $restaurant->id) }}" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                    </form>
+                                </li>
+                            @empty
+                                <li class="list-group-item">No restaurants added yet.</li>
+                            @endforelse
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

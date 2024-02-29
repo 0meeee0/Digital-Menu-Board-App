@@ -5,7 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
-
 {
     /**
      * Run the migrations.
@@ -14,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('menus_table', function (Blueprint $table) {
+        Schema::create('subscription_plans', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->integer('restaurant_id');
+            $table->string('planName');
+            $table->float('planCost');
+            $table->unsignedBigInteger('adminId');
+            $table->timestamps();
 
-            $table->timestampsTz();
+            $table->foreign('adminId')->references('id')->on('users_table')->onDelete('cascade');
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menus_table');
+        Schema::dropIfExists('subscription_plans');
     }
 };

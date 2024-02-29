@@ -20,6 +20,7 @@ class UsersTable extends Migration
             $table->string('password');
             $table->integer('role')->default(0);
             $table->integer('subscription_plan_id');
+            $table->rememberToken();
             $table->timestamps();
         });
     }

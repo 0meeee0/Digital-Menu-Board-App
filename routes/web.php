@@ -48,4 +48,7 @@ Route::put('/profile/{user}', [UserProfileController::class, 'update'])->name('u
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/operator/dashboard', [OperatorController::class, 'index'])->name('operator.dashboard');
+
+    Route::post('/operator/restaurant', [OperatorController::class, 'storeRestaurant'])->name('operator.restaurant.store');
+    Route::delete('/operator/restaurant/{id}', [OperatorController::class, 'destroyRestaurant'])->name('operator.restaurant.destroy');
 });
