@@ -42,7 +42,7 @@
         </div>
 
         <div class="container">
-          <form class="col-9 mx-auto" method="POST" action="" enctype="multipart/form-data">
+          <form class="col-9 mx-auto" method="POST" action="{{ route('store') }}" enctype="multipart/form-data">
               @csrf
               @method('post')
               <div class="form-group">
@@ -69,11 +69,12 @@
                   <label for="category">Category:</label>
                   <input type="text" name="category" id="category" class="form-control" required>
               </div>
-
+              
               <div class="form-group">
-                  <label for="image">Image:</label>
-                  <input type="file" name="image" id="image" class="form-control" accept="image/*">
+                  <label for="price">Price:</label>
+                  <input type="number" name="price" id="price" class="form-control" required>
               </div>
+
 
               <button type="submit" class="btn btn-primary">Submit</button>
           </form>

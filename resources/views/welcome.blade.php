@@ -38,8 +38,8 @@
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <h1 class="text-white-500">Digital Menu App</h1>
-                <a class="" href="{{ route('menuList') }}">click here</a>
-                {{ QrCode::size(250)->generate(route('menuList')) }}
+                <a class="" href="{{ route('menus.index') }}">click here</a>
+                {{ QrCode::size(250)->generate(route('menus.index')) }}
 
                     
             </div>

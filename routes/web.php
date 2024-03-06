@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\OperatorController;
+use App\Http\Controllers\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,13 +21,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('menuList', function () {
-    return view('menuList');
-})->name('menuList');
 
-Route::get('create', function () {
-    return view('create');
-})->name('create');
+
+Route::get('menuList', [MenuController::class, 'index'])->name('menus.index');
+Route::get('create', [MenuController::class, 'create'])->name('menus.create');
+Route::post('store', [MenuController::class, 'store'])->name('store');
+Route::get('menus/{menu}', [MenuController::class, 'show'])->name('menus.show');
+Route::get('menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');
+Route::put('menus/{menu}', [MenuController::class, 'update'])->name('menus.update');
+Route::delete('menus/{menu}', [MenuController::class, 'destroy'])->name('menus.destroy');
 
 
 
