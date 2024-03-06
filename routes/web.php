@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('menuList', function () {
+    return view('menuList');
+})->name('menuList');
+
 
 
 Auth::routes();
@@ -52,3 +56,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/operator/restaurant', [OperatorController::class, 'storeRestaurant'])->name('operator.restaurant.store');
     Route::delete('/operator/restaurant/{id}', [OperatorController::class, 'destroyRestaurant'])->name('operator.restaurant.destroy');
 });
+
+Route::get('menus/create', 'MenuController@create')->name('menus.create');
+Route::post('menus', 'MenuController@store')->name('menus.store');
