@@ -24,6 +24,10 @@ Route::get('menuList', function () {
     return view('menuList');
 })->name('menuList');
 
+Route::get('create', function () {
+    return view('create');
+})->name('create');
+
 
 
 Auth::routes();
