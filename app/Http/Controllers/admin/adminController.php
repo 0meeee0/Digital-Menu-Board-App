@@ -22,10 +22,10 @@ class adminController extends Controller
 
         if (request()->is('admin/operator')) {
             $users = User::where('role', 'operator')->get();
-            return view('admin.driver', ['users' => $users, 'operatoe' => $driverCount, 'clientCount' => $clientCount, 'menuCount' => $menuCount]);
+            return view('admin.driver', ['users' => $users, 'operatorCount' => $operatorCount, 'clientCount' => $clientCount, 'menuCount' => $menuCount]);
         } elseif (request()->is('admin/client')) {
             $users = User::where('role', 'client')->get();
-            return view('admin.client', ['users' => $users, 'clientCount' => $clientCount, 'driverCount' => $driverCount, 'menuCount' => $menuCount]);
+            return view('admin.client', ['users' => $users, 'clientCount' => $clientCount, 'operatorCount' => $operatorCount, 'menuCount' => $menuCount]);
         } 
   
     }
