@@ -17,7 +17,6 @@ class adminController extends Controller
         
         $driverCount = User::where('role', 'driver')->count();
         $clientCount = User::where('role', 'client')->count();
-        $reservationCount = Reservation::count(); 
     
         $adminUsers = $this->getAdminUsers();
 
