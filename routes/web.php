@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\OperatorController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\admin\adminController;
+use App\Http\Controllers\driver\operatorController;
+use App\Http\Controllers\client\clientController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -11,51 +13,42 @@ use App\Http\Controllers\OperatorController;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
 |
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
-Route::get('menuList', function () {
-    return view('menuList');
-})->name('menuList');
+Route::get('/dashboard', [clientController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
-
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
-Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
-
-
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-Route::post('/login', [AuthController::class, 'login']);
-
-Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
-
-
-
-Route::get('/profile/{user}', [UserProfileController::class, 'show'])->name('user.profile');
-Route::put('/profile/{user}', [UserProfileController::class, 'update'])->name('user.update');
-
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/operator/dashboard', [OperatorController::class, 'index'])->name('operator.dashboard');
-
-    Route::post('/operator/restaurant', [OperatorController::class, 'storeRestaurant'])->name('operator.restaurant.store');
-    Route::delete('/operator/restaurant/{id}', [OperatorController::class, 'destroyRestaurant'])->name('operator.restaurant.destroy');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('admin/menu', [adminController::class, 'index'])->name('admin.menu');
+    Route::get('admin/subscription', [adminController::class, 'index'])->name('admin.client');
+    Route::get('admin/createUser', [adminController::class, 'create'])->name('admin.createUser');
+    Route::post('admin/storeuser', [adminController::class, 'store'])->name('admin.storeUser');
+    Route::get('admin/{user}/edit', [adminController::class, 'edit'])->name('admin.editUser');
+    Route::post('admin/{user}/update', [adminController::class, 'update'])->name('admin.updateUser');
+    Route::post('admin/{user}/destroy', [adminController::class, 'destroy'])->name('admin.destroyUser');
 });
 
-Route::get('menus/create', 'MenuController@create')->name('menus.create');
-Route::post('menus', 'MenuController@store')->name('menus.store');
+Route::middleware(['auth', 'role:operator'])->group(function () {
+    // Route::get('driver/history', [operatorController::class, 'index'])->name('driver.history');
+
+
+});
+
+Route::middleware(['auth', 'role:client'])->group(function () {
+    // Route::get('/search', [clientController::class, 'showSearchForm'])->name('client.search');
+});
+  
+require __DIR__.'/auth.php';
+    
+
